@@ -1,0 +1,248 @@
+{
+  "elements": [
+    {
+      "config": {
+        "defaultValue": {
+          "earliest": "-1d",
+          "latest": "now",
+          "timezone": "local"
+        }
+      },
+      "id": "ogt7wk2fl",
+      "inputId": "input_1",
+      "type": "input.timerange",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 2,
+        "h": 2
+      }
+    },
+    {
+      "config": {
+        "mapDetails": {
+          "mapSourceID": "World",
+          "pointScale": 10,
+          "mapType": "Geo Map",
+          "latitudeField": "lat",
+          "longitudeField": "lon",
+          "nameField": "Client_Network"
+        },
+        "colorPalette": 0,
+        "colorPaletteReversed": false,
+        "customData": {
+          "trellis": false,
+          "connectNulls": "Leave gaps",
+          "stack": false,
+          "dataFields": [
+            "Client_Network",
+            "country",
+            "city",
+            "lat",
+            "lon",
+            "net_count"
+          ],
+          "seriesCount": 1
+        },
+        "xAxis": {
+          "labelOrientation": 0,
+          "position": "Bottom"
+        },
+        "yAxis": {
+          "position": "Left",
+          "scale": "Linear",
+          "splitLine": true
+        },
+        "legend": {
+          "position": "Right",
+          "truncate": true
+        },
+        "onClickAction": {
+          "type": "None"
+        },
+        "timestats": false
+      },
+      "search": {
+        "type": "inline",
+        "query": "dataset=\"Floss_Websrv_Logs\" \n| summarize net_count=count() by Client_Network\n| ip-lookup \"GeoLite2-City.mmdb\" on Client_Network\n| where isnotnull(Client_Network) \n| project Client_Network, country, city, lat, lon, net_count\n",
+        "earliest": "$input_1.earliest",
+        "latest": "$input_1.latest",
+        "timezone": "$input_1.timezone"
+      },
+      "id": "oneyik1mt",
+      "type": "chart.map",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 4
+      },
+      "title": "Requests by Geographic Location"
+    },
+    {
+      "config": {
+        "colorPalette": 0,
+        "colorPaletteReversed": false,
+        "customData": {
+          "summarizeOthers": false,
+          "trellis": false,
+          "connectNulls": "Leave gaps",
+          "stack": false,
+          "dataFields": [
+            "Client_Net_ISP",
+            "count_"
+          ],
+          "seriesCount": 1,
+          "splitBy": "Client_Net_ISP"
+        },
+        "legend": {
+          "position": "Right",
+          "truncate": true
+        },
+        "onClickAction": {
+          "type": "None"
+        },
+        "xAxis": {
+          "labelOrientation": 0,
+          "position": "Bottom"
+        },
+        "yAxis": {
+          "position": "Left",
+          "scale": "Linear",
+          "splitLine": true
+        },
+        "timestats": false,
+        "axis": {
+          "xAxis": "Client_Net_ISP",
+          "yAxis": [
+            "count_"
+          ]
+        }
+      },
+      "search": {
+        "type": "inline",
+        "query": "dataset=\"Floss_Websrv_Logs\" | summarize count() by Client_Net_ISP",
+        "earliest": "$input_1.earliest",
+        "latest": "$input_1.latest",
+        "timezone": "$input_1.timezone"
+      },
+      "id": "vwq8087to",
+      "type": "chart.pie",
+      "layout": {
+        "x": 0,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "hidePanel": false,
+      "title": "Requests by Autonomous System Org Name"
+    },
+    {
+      "config": {
+        "colorPalette": 0,
+        "colorPaletteReversed": false,
+        "customData": {
+          "pointScale": 10,
+          "isPointColor": false,
+          "trellis": false,
+          "connectNulls": "Leave gaps",
+          "stack": false,
+          "dataFields": [
+            "_time",
+            "8b0f588c6f6f"
+          ],
+          "seriesCount": 1
+        },
+        "xAxis": {
+          "labelOrientation": 0,
+          "position": "Bottom",
+          "dataField": "_time"
+        },
+        "yAxis": {
+          "position": "Left",
+          "scale": "Linear",
+          "splitLine": true,
+          "dataField": "8b0f588c6f6f"
+        },
+        "legend": {
+          "position": "Right",
+          "truncate": true
+        },
+        "onClickAction": {
+          "type": "None"
+        },
+        "timestats": true
+      },
+      "search": {
+        "type": "inline",
+        "query": "dataset=Floss_Websrv_Metrics sourcetype='nginx-error-logs' \n| timestats span=30m sum(value) by host",
+        "earliest": "$input_1.earliest",
+        "latest": "$input_1.latest",
+        "timezone": "$input_1.timezone"
+      },
+      "id": "8yxuo4u03",
+      "type": "chart.scatter",
+      "layout": {
+        "x": 6,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "title": "Error Codes by Host over time ( 30 minute bucket ) "
+    },
+    {
+      "config": {
+        "colorPalette": 0,
+        "colorPaletteReversed": false,
+        "customData": {
+          "trellis": false,
+          "connectNulls": "Leave gaps",
+          "stack": false,
+          "dataFields": [
+            "200",
+            "400",
+            "404",
+            "444",
+            "499",
+            "502",
+            "_time"
+          ],
+          "seriesCount": 6
+        },
+        "xAxis": {
+          "labelOrientation": 0,
+          "position": "Bottom"
+        },
+        "yAxis": {
+          "position": "Left",
+          "scale": "Linear",
+          "splitLine": true
+        },
+        "legend": {
+          "position": "Right",
+          "truncate": true
+        },
+        "onClickAction": {
+          "type": "None"
+        },
+        "timestats": true
+      },
+      "search": {
+        "type": "inline",
+        "query": "dataset=Floss_Websrv_Metrics sourcetype='nginx-access-logs' \n| where isnotnull(Response_Status)\n| timestats span=30m sum(value) by Response_Status",
+        "earliest": "$input_1.earliest",
+        "latest": "$input_1.latest",
+        "timezone": "$input_1.timezone"
+      },
+      "id": "ol6ojo3p4",
+      "type": "chart.line",
+      "layout": {
+        "x": 0,
+        "y": 9,
+        "w": 12,
+        "h": 4
+      },
+      "title": "Response Codes over time ( 30 minute bucket )"
+    }
+  ]
+}
